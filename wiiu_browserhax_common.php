@@ -42,7 +42,7 @@ $ROP_SETR3TOR31_POP_R31 r3=r31. Load LR from stackreg+20, load r31 from stackreg
 $ROP_memcpy Address of "memcpy" in coreinit.
 $ROP_DCFlushRange Address of "DCFlushRange" in coreinit. void DCFlushRange(const void *addr, size_t length);
 $ROP_ICInvalidateRange Address of "ICInvalidateRange" in coreinit. void ICInvalidateRange(const void *addr, size_t length);
-$ROP_OSSwitchSecCodeGenMode Address of "OSSwitchSecCodeGenMode" in coreinit. OSSwitchSecCodeGenMode(bool execute)
+$ROP_OSSwitchSecCodeGenMode Address of "OSSwitchSecCodeGenMode" in coreinit. OSSwitchSecCodeGenMode(bool flag)
 $ROP_OSCodegenCopy Address of "OSCodegenCopy" in coreinit. u32 OSCodegenCopy(dstaddr, srcaddr, size)
 $ROP_OSGetCodegenVirtAddrRange Address of "OSGetCodegenVirtAddrRange" in coreinit. void OSGetCodegenVirtAddrRange(u32 *out0, u32 *out1)
 $ROP_OSGetCoreId Address of "OSGetCoreId" in coreinit.
@@ -256,11 +256,11 @@ function ropgen_OSGetCodegenVirtAddrRange($outaddr0, $outaddr1)
 	ropgen_callfunc($ROP_OSGetCodegenVirtAddrRange, $outaddr0, $outaddr1, 0x0, 0x0, 0x0);
 }
 
-function ropgen_OSSwitchSecCodeGenMode($execute)
+function ropgen_OSSwitchSecCodeGenMode($flag)//flag0 == RW- permissions, flag1 == R-X permissions.
 {
 	global $ROP_OSSwitchSecCodeGenMode;
 
-	ropgen_callfunc($ROP_OSSwitchSecCodeGenMode, $execute, 0x0, 0x0, 0x0, 0x0);
+	ropgen_callfunc($ROP_OSSwitchSecCodeGenMode, $flag, 0x0, 0x0, 0x0, 0x0);
 }
 
 function ropgen_memcpy($dst, $src, $size)
