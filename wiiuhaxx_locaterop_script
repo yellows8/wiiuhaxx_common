@@ -5,3 +5,5 @@
 --patterntype=sha256 --patterndata=4741b863adcf742f8928c485a39f3cc8629469d1ddccf9e68c9dd1c25341f091 --patternsha256size=0x20 --addval=0xFFFFFCFC "--plainout=$ROP_POP_R28R29R30R31 = "
 --patterntype=sha256 --patterndata=972973be8074e92b0f10fc5fbbaaef6c28e2905f99007654cd735a5fd69933fc --patternsha256size=0x14 --addval=0xFFFFFCFC "--plainout=$ROP_POP_R27 = "
 --patterntype=sha256 --patterndata=6f5f11fdc441ddef8f2189cbc9006517c4917fcf6e975cb8cbeb2373bf8e8ca2 --patternsha256size=0x14 --addval=0xFFFFFCFC "--plainout=$ROP_POP_R24_TO_R31 = "
+--patterntype=sha256 --patterndata=e602f66cf8aadc4d5e7db074ad9b8fbfa4190f862a8215cf26f707a49ca95070 --patternsha256size=0x28 --addval=0xFFFFFCFC "--plainout=$ROP_CALLFUNCPTR_WITHARGS_FROM_R3MEM = "
+--patterntype=sha256 --patterndata=5e1fb4810ff6fb86bb533f2050306de6e03e09450887df6cb22c6d8511c3e267 --patternsha256size=0x18 --addval=0xFFFFFCFC "--plainout=$ROP_SETR3TOR31_POP_R31 = "
