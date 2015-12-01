@@ -11,7 +11,15 @@ $ROP_memcpy = 0x01035a68;
 $ROP_DCFlushRange = 0x01023ee8;
 $ROP_ICInvalidateRange = 0x01024010;
 $ROP_OSSwitchSecCodeGenMode = 0x010370c0;
+$ROP_OSCodegenCopy = 0x010370d8;
+$ROP_OSGetCurrentThread = 0x010429cc;
 $ROP_OSSetThreadAffinity = 0x01042284;
 $ROP_OSYieldThread = 0x01041250;
 $ROP_OSFatal = 0x01031368;
+$ROP_Exit = 0x0101cd70;
+$ROP_OSScreenFlipBuffersEx = 0x0103a9d0;
+$ROP_OSScreenClearBufferEx = 0x0103aa90;
+$ROP_OSDynLoad_Acquire = 0x0102a31c;
+$ROP_OSDynLoad_FindExport = 0x0102b790;
+$ROP_os_snprintf = 0x0102f09c;
 ?>
