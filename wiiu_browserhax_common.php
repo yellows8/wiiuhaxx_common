@@ -376,7 +376,7 @@ function generateropchain_type1()
 
 	//ropgen_OSFatal($codepayload_srcaddr);//OSFatal(<data from the haxx>);
 
-	ropgen_switchto_core1();//When running under internetbrowser, only core1 is allowed to use codegen. Switch to core1 just in case this thread isn't on core1(with some exploit(s) it may already be one core1, but do this anyway).
+	ropgen_switchto_core1();//When running under internetbrowser, only core1 is allowed to use codegen. Switch to core1 just in case this thread isn't on core1(with some exploit(s) it may already be one core1, but do this anyway). OSSetThreadAffinity() currently returns an error for this, hence this codebase is only usable when this ROP is already running on core1.
 
 	ropgen_copycodebin_to_codegen($codegen_addr, $payload_srcaddr, $payload_size);
 
