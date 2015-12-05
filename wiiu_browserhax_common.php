@@ -107,7 +107,11 @@ function wiiuhaxx_generatepayload()
 	if($loader === FALSE || strlen($loader) < 4)return FALSE;
 	$len = strlen($actual_payload);
 
-	if($len & 0x3)return FALSE;//The actual payload size must be 4-byte aligned.
+	while($len & 0x3)//The actual payload size must be 4-byte aligned.
+	{
+		$actual_payload.= pack("C*", 0x00);
+		$len = strlen($actual_payload);
+	}
 
 	$loader .= pack("N*", $len);
 
