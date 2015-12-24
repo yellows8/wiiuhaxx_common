@@ -1,5 +1,9 @@
 <?php
 
+require_once("wiiuhaxx_common_cfg.php");
+
+if(!isset($wiiuhaxxcfg_payloadfilepath) || !isset($wiiuhaxxcfg_loaderfilepath))die("The filepaths for wiiuhaxxcfg are not set in the cfg file.");
+
 if(!isset($sysver))$sysver = -1;
 
 if(isset($_REQUEST['sysver']))
@@ -18,7 +22,7 @@ if($sysver===-1)die("The system-version must be specified via an URL parameter."
 
 require_once("wiiuhaxx_rop_sysver_$sysver.php");
 
-$ropchainselect = -1;
+if(!isset($ropchainselect))$ropchainselect = -1;
 if($ropchainselect == -1)
 {
 	$ropchainselect = 1;
@@ -100,10 +104,12 @@ function generate_ropchain()
 
 function wiiuhaxx_generatepayload()
 {
-	$actual_payload = file_get_contents("wiiuhaxx_payload.bin");
+	global $wiiuhaxxcfg_payloadfilepath, $wiiuhaxxcfg_loaderfilepath;
+
+	$actual_payload = file_get_contents($wiiuhaxxcfg_payloadfilepath);
 	if($actual_payload === FALSE || strlen($actual_payload) < 4)return FALSE;
 
-	$loader = file_get_contents("wiiuhaxx_loader.bin");
+	$loader = file_get_contents($wiiuhaxxcfg_loaderfilepath);
 	if($loader === FALSE || strlen($loader) < 4)return FALSE;
 	$len = strlen($actual_payload);
 
