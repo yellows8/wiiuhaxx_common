@@ -4,7 +4,8 @@ Currently only binary ROP-chains are supported, hence no support for using this 
 
 You must specify the "sysver={val}" URL parameter for pages using this codebase, for selecting your Wii U system-version:
 * "532": 5.3.2
-* "550": 5.5.0
+* "540": 5.4.0
+* "550": 5.5.0 / 5.5.1
 
 # Usage
 

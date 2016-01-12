@@ -12,6 +12,10 @@ if(isset($_REQUEST['sysver']))
 	{
 		$sysver = 532;
 	}
+	else if($_REQUEST['sysver']==="540")
+	{
+		$sysver = 540;
+	}
 	else if($_REQUEST['sysver']==="550")
 	{
 		$sysver = 550;
@@ -20,7 +24,10 @@ if(isset($_REQUEST['sysver']))
 
 if($sysver===-1)die("The system-version must be specified via an URL parameter.");
 
-require_once("wiiuhaxx_rop_sysver_$sysver.php");
+$filesysver = $sysver;
+if($filesysver == 540)$filesysver = 532;
+
+require_once("wiiuhaxx_rop_sysver_$filesysver.php");
 
 if(!isset($ropchainselect))$ropchainselect = -1;
 if($ropchainselect == -1)
