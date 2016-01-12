@@ -83,8 +83,8 @@ For example:
 ```
 <?php
 
-$wiiuhaxxcfg_payloadfilepath = "<filepath>";
-$wiiuhaxxcfg_loaderfilepath = "<filepath>";
+$wiiuhaxxcfg_payloadfilepath = "<filepath for actual payload, such as wiiuhax_payload.bin, or for example: {projectdir}/bin/code550.bin>";
+$wiiuhaxxcfg_loaderfilepath = "<filepath for wiiuhaxx_loader.bin>";
 
 ?>
 ```
